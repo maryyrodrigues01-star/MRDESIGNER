@@ -1,8 +1,54 @@
 rules_version = '2';
 service cloud.firestore {
   match /databases/{database}/documents {
+    
+    // Safety DENY
     match /{document=**} {
-      allow read, write: if request.auth != null;
+      allow read, write: if false;
+    }
+
+    function isSignedIn() {
+      return request.auth != null;
+    }
+
+    // Helper for basic string validation (Pillar 3 & 5)
+    function isValidString(val, min, max) {
+      return val is string && val.size() >= min && val.size() <= max;
+    }
+
+    match /niches/{nicheId} {
+      allow read: if isSignedIn();
+      allow create: if isSignedIn() 
+        && isValidString(request.resource.data.name, 1, 100);
+      allow delete: if isSignedIn();
+    }
+
+    match /clients/{clientId} {
+      allow read: if isSignedIn();
+      allow create: if isSignedIn()
+        && isValidString(request.resource.data.name, 1, 200)
+        && request.resource.data.nicheId is string;
+      allow delete: if isSignedIn();
+    }
+
+    match /tasks/{taskId} {
+      allow read: if isSignedIn();
+      allow create: if isSignedIn()
+        && isValidString(request.resource.data.title, 1, 255);
+      allow update: if isSignedIn();
+      allow delete: if isSignedIn();
+    }
+
+    match /nicheDates/{dateId} {
+      allow read: if isSignedIn();
+      allow create: if isSignedIn();
+      allow delete: if isSignedIn();
+    }
+
+    match /earnings/{earningId} {
+      allow read: if isSignedIn();
+      allow create: if isSignedIn();
+      allow delete: if isSignedIn();
     }
   }
 }
