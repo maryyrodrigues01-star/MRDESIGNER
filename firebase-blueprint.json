@@ -1,0 +1,72 @@
+{
+  "entities": {
+    "Client": {
+      "title": "Client",
+      "description": "Represents a client of the studio.",
+      "type": "object",
+      "properties": {
+        "name": { "type": "string" },
+        "instagram": { "type": "string" },
+        "phone": { "type": "string" },
+        "nicheId": { "type": "string" },
+        "createdAt": { "type": "string", "format": "date-time" }
+      },
+      "required": ["name", "nicheId"]
+    },
+    "Niche": {
+      "title": "Niche",
+      "description": "Market niches for clients.",
+      "type": "object",
+      "properties": {
+        "name": { "type": "string" },
+        "description": { "type": "string" }
+      },
+      "required": ["name"]
+    },
+    "Task": {
+      "title": "Task",
+      "description": "A design task/artwork linked to a client.",
+      "type": "object",
+      "properties": {
+        "title": { "type": "string" },
+        "clientId": { "type": "string" },
+        "date": { "type": "string", "format": "date" },
+        "status": { "type": "string", "enum": ["pending", "completed"] },
+        "createdAt": { "type": "string", "format": "date-time" }
+      },
+      "required": ["title", "clientId", "date", "status"]
+    },
+    "NicheDate": {
+      "title": "NicheDate",
+      "description": "Custom important dates for specific niches or general.",
+      "type": "object",
+      "properties": {
+        "title": { "type": "string" },
+        "date": { "type": "string", "format": "date" },
+        "type": { "type": "string" },
+        "nicheId": { "type": "string" }
+      },
+      "required": ["title", "date", "type", "nicheId"]
+    },
+    "Earning": {
+      "title": "Earning",
+      "description": "Financial records of sales.",
+      "type": "object",
+      "properties": {
+        "artName": { "type": "string" },
+        "value": { "type": "number" },
+        "date": { "type": "string", "format": "date" },
+        "clientId": { "type": "string" },
+        "createdAt": { "type": "string", "format": "date-time" }
+      },
+      "required": ["artName", "value", "date", "clientId"]
+    }
+  },
+  "firestore": {
+    "/clients/{clientId}": { "schema": "Client", "description": "Clients collection" },
+    "/niches/{nicheId}": { "schema": "Niche", "description": "Niches collection" },
+    "/tasks/{taskId}": { "schema": "Task", "description": "Tasks collection" },
+    "/nicheDates/{dateId}": { "schema": "NicheDate", "description": "Custom dates collection" },
+    "/earnings/{earningId}": { "schema": "Earning", "description": "Earnings collection" }
+  }
+}

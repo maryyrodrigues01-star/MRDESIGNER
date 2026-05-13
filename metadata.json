@@ -1,0 +1,6 @@
+{
+  "name": "Design Studio Manager",
+  "description": "Um aplicativo minimalista para designers gerenciarem clientes, nichos, calendário de datas comerciais e relatórios de ganhos.",
+  "requestFramePermissions": ["notifications"],
+  "majorCapabilities": []
+}
